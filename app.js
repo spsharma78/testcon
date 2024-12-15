@@ -38,7 +38,7 @@ app.get('/get-host-info', (req, res) => {
   });
 });
 
-Start the server
+//Start the server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
