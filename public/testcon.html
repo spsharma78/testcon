@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Host Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #host-info {
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Host Information</h1>
+  <p id="host-info">Loading...</p>
+
+  <script>
+    fetch('/get-host-info')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('host-info').innerText = `Host: ${data[0].host}`;
+      })
+      .catch(error => {
+        document.getElementById('host-info').innerText = 'Error fetching host information';
+        console.error('Error:', error);
+      });
+  </script>
+</body>
+</html>
