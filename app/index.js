@@ -1,5 +1,7 @@
 const app = require('express')();
 const { v4 } = require('uuid');
+const mysql = require('mysql');
+const port = 3000;
 
 app.get('/api', (req, res) => {
   const path = `/api/item/${v4()}`;
@@ -12,5 +14,40 @@ app.get('/api/item/:slug', (req, res) => {
   const { slug } = req.params;
   res.end(`Item: ${slug}`);
 });
+
+// Create a MySQL connection pool
+const pool = mysql.createPool({
+  connectionLimit: 10,
+  host: "bsnrlsmgsu6shylbjaae-mysql.services.clever-cloud.com",
+  user: "ufvay9lvcba4ekar",
+  password: "YjJmjh43BvcOFqRcjO5L",
+  database: "bsnrlsmgsu6shylbjaae"
+});
+
+// Serve static files from the "public" directory
+app.use(express.static('public'));
+
+// API endpoint to get host information
+app.get('/get-host-info', (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error connecting to the database:', err);
+      res.status(500).send('Error connecting to the database');
+      return;
+    }
+
+    connection.query('SELECT @@hostname AS host', (err, results) => {
+      if (err) {
+        console.error('Error fetching data:', err);
+        res.status(500).send('Error fetching data');
+        return;
+      }
+
+      connection.release();
+      res.json(results);
+    });
+  });
+});
+
 
 module.exports = app;
