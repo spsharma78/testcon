@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express'); // Add this line
+const app = express();
 const { v4 } = require('uuid');
 const mysql = require('mysql');
 const port = 3000;
@@ -37,17 +38,20 @@ app.get('/get-host-info', (req, res) => {
     }
 
     connection.query('SELECT @@hostname AS host', (err, results) => {
+      connection.release(); // Ensure connection is always released
       if (err) {
         console.error('Error fetching data:', err);
         res.status(500).send('Error fetching data');
         return;
       }
 
-      connection.release();
       res.json(results);
     });
   });
 });
 
+app.listen(port, () => {
+  console.log(`App running on http://localhost:${port}`);
+});
 
 module.exports = app;
