@@ -19,10 +19,10 @@ app.get('/api/item/:slug', (req, res) => {
 // Create a MySQL connection pool
 const pool = mysql.createPool({
   connectionLimit: 10,
-  host: "bsnrlsmgsu6shylbjaae-mysql.services.clever-cloud.com",
-  user: "ufvay9lvcba4ekar",
-  password: "YjJmjh43BvcOFqRcjO5L",
-  database: "bsnrlsmgsu6shylbjaae"
+  host: "test",
+  user: "test",
+  password: "test",
+  database: "test"
 });
 
 // Serve static files from the "public" directory
